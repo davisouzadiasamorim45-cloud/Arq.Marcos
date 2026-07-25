@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:#F3EFE8;}
+::selection{background:#A85D3E;color:#F3EFE8;}
+@keyframes mkScroll{0%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(7px)}100%{opacity:.2;transform:translateY(0)}}
+#topo-depois,#topo-antes{position:absolute;inset:0;background-size:cover;background-position:center;}
+#topo-depois{background-image:url('./firstImage.png');background-color:#241710;}
+#topo-antes{background-image:url('./firstImage.png');background-color:#23262a;}
+</style>
+</helmet>
+<div style="font-family:'Hanken Grotesk',sans-serif;color:#1F1B16;background:#F3EFE8;overflow-x:hidden;">
+
+  <!-- ============ HEADER ============ -->
+  <header data-header style="position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,5vw,64px);color:#F3EFE8;border-bottom:1px solid rgba(243,239,232,0);transition:background .55s ease,color .45s ease,padding .4s ease,border-color .55s ease;">
+    <a href="#topo" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;line-height:1;">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;letter-spacing:.02em;">Marcos Apolo</span>
+      <span style="font-size:9.5px;font-weight:600;letter-spacing:.42em;text-transform:uppercase;opacity:.72;margin-top:5px;">Arquitetura · Interiores</span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:clamp(14px,2.4vw,38px);font-size:13px;font-weight:500;letter-spacing:.04em;">
+      <a href="#projetos" style="text-decoration:none;color:inherit;opacity:.85;" class="navlink">Projetos</a>
+      <a href="#sobre" style="text-decoration:none;color:inherit;opacity:.85;" class="navlink">Estúdio</a>
+      <a href="#depoimentos" style="text-decoration:none;color:inherit;opacity:.85;" class="navlink">Depoimentos</a>
+      <a href="#contato" style="text-decoration:none;color:inherit;border:1px solid currentColor;padding:10px 20px;border-radius:999px;transition:background .35s ease,color .35s ease;" style-hover="background:#A85D3E;border-color:#A85D3E;color:#F3EFE8;">Agendar conversa</a>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section id="topo" style="position:relative;height:100vh;min-height:660px;overflow:hidden;background:#16110d;cursor:crosshair;">
+    <div id="topo-depois"></div>
+    <div data-antes style="position:absolute;inset:0;pointer-events:none;">
+      <div id="topo-antes" style="position:absolute;inset:0;"></div>
+    </div>
+    <div data-lens style="position:absolute;left:50%;top:42%;width:280px;height:280px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 70px rgba(201,138,110,0.22),inset 0 0 50px rgba(201,138,110,0.12);transition:opacity .4s ease;"></div>
+    <div data-overlay style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(178deg,rgba(18,15,12,0.36) 0%,rgba(18,15,12,0.02) 26%,rgba(18,15,12,0.1) 52%,rgba(18,15,12,0.78) 100%);"></div>
+
+    <div data-p="5" style="position:absolute;top:clamp(78px,9.5vh,104px);right:clamp(20px,5vw,64px);z-index:5;display:flex;gap:8px;">
+      <button onClick="{{ toggleAntes }}" style="{{ fillAntesStyle }}">{{ fillAntesLabel }}</button>
+      <button onClick="{{ toggleDepois }}" style="{{ fillDepoisStyle }}">{{ fillDepoisLabel }}</button>
+    </div>
+
+    <div data-hint style="position:absolute;top:calc(50% - 172px);left:50%;transform:translateX(-50%);pointer-events:none;display:flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid rgba(243,239,232,0.22);border-radius:999px;color:rgba(243,239,232,0.82);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;backdrop-filter:blur(4px);transition:opacity .6s ease;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#C98A6E;display:inline-block;"></span>Mova o cursor — revele o projeto
+    </div>
+
+    <button data-flip style="position:absolute;top:clamp(78px,9.5vh,104px);left:clamp(20px,5vw,64px);z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(18,15,12,0.32);border:1px solid rgba(243,239,232,0.18);color:rgba(243,239,232,0.48);font-size:15px;line-height:1;cursor:pointer;backdrop-filter:blur(6px);transition:color .25s,border-color .25s;display:flex;align-items:center;justify-content:center;" title="Inverter visualização">⇄</button>
+
+    <div data-p="16" style="position:absolute;left:clamp(20px,5vw,64px);right:clamp(20px,5vw,64px);bottom:clamp(44px,8vh,86px);color:#F3EFE8;pointer-events:none;">
+      <div style="{{ heroEyebrow }}">
+        <span style="width:30px;height:1px;background:#C98A6E;display:inline-block;"></span>São Paulo · Brasil
+      </div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(50px,9.4vw,150px);line-height:0.9;margin:0;letter-spacing:-.01em;">
+        <span style="display:block;overflow:hidden;padding-bottom:.04em;"><span style="{{ heroLine1 }}">Espaços que</span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.04em;"><span style="{{ heroLine2 }}">permanecem</span></span>
+      </h1>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-top:34px;">
+        <p style="{{ heroText }}">Arquitetura e design de interiores de alto padrão. Projetos residenciais autorais, pensados sob medida para o modo de viver de cada cliente.</p>
+        <a href="#projetos" style="{{ heroCta }}">Ver projetos
+          <span style="display:inline-block;animation:mkScroll 2.1s ease-in-out infinite;">↓</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MANIFESTO ============ -->
+  <section data-reveal style="padding:clamp(86px,15vh,170px) clamp(20px,5vw,64px);max-width:1180px;margin:0 auto;">
+    <div style="font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#A85D3E;margin-bottom:30px;">Filosofia</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(27px,3.7vw,50px);line-height:1.26;margin:0;max-width:1000px;text-wrap:pretty;">Cada projeto começa por uma escuta. Traduzimos o modo de viver de cada cliente em <span style="font-style:italic;color:#A85D3E;">luz, matéria e proporção</span> — ambientes atemporais, feitos para durar gerações.</p>
+  </section>
+
+  <!-- ============ PROJETOS ============ -->
+  <section id="projetos" style="background:#EBE5DB;padding:clamp(70px,11vh,130px) clamp(20px,5vw,64px) clamp(86px,13vh,150px);scroll-margin-top:78px;">
+    <div data-reveal style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px;max-width:1320px;margin:0 auto clamp(40px,5vw,64px);">
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#A85D3E;margin-bottom:16px;">Portfólio · 2022—2024</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(40px,6vw,76px);line-height:0.96;margin:0;">Projetos selecionados</h2>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="4">
+          <button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:clamp(22px,2.6vw,40px);max-width:1320px;margin:0 auto;">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+        <div onClick="{{ p.open }}" onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="cursor:pointer;">
+          <div style="position:relative;aspect-ratio:4/5;overflow:hidden;background:#DED6C8;">
+            <div style="{{ p.imgStyle }}"></div>
+            <video data-proj-video="{{ p.id }}" src="{{ p.video }}" style="{{ p.videoStyle }}" muted loop playsinline preload="metadata"></video>
+            <div style="position:absolute;top:16px;left:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;letter-spacing:.12em;color:rgba(31,27,22,0.42);text-transform:uppercase;">foto · {{ p.title }}</div>
+            <div style="position:absolute;top:16px;right:16px;font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(31,27,22,0.4);">{{ p.num }}</div>
+            <div style="{{ p.overlayStyle }}">
+              <span style="display:flex;align-items:center;gap:10px;color:#F3EFE8;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(243,239,232,0.6);padding:12px 22px;border-radius:999px;">Ver projeto →</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:18px;">
+            <div>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:25px;margin:0 0 7px;line-height:1.05;">{{ p.title }}</h3>
+              <div style="font-size:12.5px;color:#6B6258;letter-spacing:.02em;">{{ p.cat }} · {{ p.loc }}</div>
+            </div>
+            <div style="text-align:right;white-space:nowrap;">
+              <div style="font-size:12.5px;color:#1F1B16;font-weight:600;">{{ p.year }}</div>
+              <div style="font-size:11.5px;color:#9A9084;margin-top:4px;">{{ p.area }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ SOBRE / ESTÚDIO ============ -->
+  <section id="sobre" style="padding:clamp(86px,14vh,160px) clamp(20px,5vw,64px);scroll-margin-top:78px;">
+    <div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:clamp(40px,6vw,96px);align-items:center;" data-grid-about>
+      <div data-reveal style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#211C17;">
+        <div style="position:absolute;inset:0;background-color:#2A231C;background-image:repeating-linear-gradient(135deg,rgba(243,239,232,0.05) 0 2px,transparent 2px 14px);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.16em;color:rgba(243,239,232,0.45);text-transform:uppercase;">[ retrato · marcos apolo ]</div>
+      </div>
+      <div data-reveal>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#A85D3E;margin-bottom:26px;">O estúdio</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(24px,3vw,38px);line-height:1.32;margin:0 0 32px;text-wrap:pretty;">Fundado por Marcos Apolo, o estúdio nasce da convicção de que a boa arquitetura é discreta — ela serve à vida, não ao ego.</p>
+        <p style="font-size:15.5px;line-height:1.78;color:#574E45;font-weight:300;margin:0 0 18px;max-width:560px;">Há mais de quinze anos desenvolvemos residências e interiores de alto padrão em São Paulo e no litoral. Cada projeto é conduzido pessoalmente, do conceito à última peça de marcenaria, com um número limitado de obras por ano.</p>
+        <p style="font-size:15.5px;line-height:1.78;color:#574E45;font-weight:300;margin:0;max-width:560px;">Trabalhamos com materiais nobres e naturais — pedra, madeira maciça, fibras — e uma paleta sóbria, deixando que a luz e a paisagem conduzam a experiência do espaço.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:clamp(30px,5vw,64px);margin-top:48px;border-top:1px solid rgba(31,27,22,0.13);padding-top:36px;">
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,58px);font-weight:300;line-height:1;"><span data-count="15">15</span><span style="color:#A85D3E;">+</span></div>
+            <div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#6B6258;margin-top:10px;">anos de atuação</div>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,58px);font-weight:300;line-height:1;"><span data-count="120">120</span></div>
+            <div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#6B6258;margin-top:10px;">projetos entregues</div>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,58px);font-weight:300;line-height:1;"><span data-count="8" data-pad="2">08</span></div>
+            <div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#6B6258;margin-top:10px;">prêmios de design</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DEPOIMENTOS ============ -->
+  <section id="depoimentos" style="position:relative;overflow:hidden;background:#16110d;color:#F3EFE8;padding:clamp(90px,15vh,170px) clamp(20px,5vw,64px);scroll-margin-top:0;">
+    <canvas data-test-shader style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+    <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,rgba(18,15,12,0.35) 0%,rgba(18,15,12,0.78) 70%,rgba(18,15,12,0.92) 100%);"></div>
+    <div style="position:relative;z-index:2;max-width:1080px;margin:0 auto;text-align:center;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#C98A6E;margin-bottom:clamp(40px,6vh,64px);">Depoimentos</div>
+      <div style="position:relative;min-height:clamp(220px,30vh,300px);">
+        <sc-for list="{{ tests }}" as="t" hint-placeholder-count="3">
+          <div style="{{ t.slideStyle }}">
+            <p style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,3.7vw,46px);line-height:1.34;margin:0 0 38px;font-style:italic;text-wrap:pretty;">“{{ t.quote }}”</p>
+            <div style="font-size:13px;font-weight:600;letter-spacing:.04em;">{{ t.name }}</div>
+            <div style="font-size:12px;color:rgba(243,239,232,0.55);letter-spacing:.1em;text-transform:uppercase;margin-top:8px;">{{ t.role }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:center;gap:11px;margin-top:clamp(40px,6vh,60px);">
+        <sc-for list="{{ tests }}" as="t" hint-placeholder-count="3">
+          <button onClick="{{ t.go }}" aria-label="depoimento" style="{{ t.dotStyle }}"></button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTATO ============ -->
+  <section id="contato" style="padding:clamp(86px,14vh,160px) clamp(20px,5vw,64px);scroll-margin-top:78px;">
+    <div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(48px,7vw,110px);align-items:start;">
+      <div data-reveal>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#A85D3E;margin-bottom:24px;">Contato</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(44px,6.5vw,86px);line-height:0.95;margin:0 0 36px;">Vamos<br><span style="font-style:italic;">conversar</span></h2>
+        <p style="font-size:15.5px;line-height:1.75;color:#574E45;font-weight:300;max-width:420px;margin:0 0 44px;">Recebemos um número limitado de projetos por ano. Conte um pouco sobre o seu — respondemos em até dois dias úteis.</p>
+        <div style="display:flex;flex-direction:column;gap:22px;">
+          <div>
+            <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;margin-bottom:6px;">E-mail</div>
+            <a href="mailto:estudio@marcosapolo.com.br" style="text-decoration:none;color:#1F1B16;font-size:17px;font-family:'Cormorant Garamond',serif;">estudio@marcosapolo.com.br</a>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;margin-bottom:6px;">Telefone</div>
+            <a href="tel:+551130000000" style="text-decoration:none;color:#1F1B16;font-size:17px;font-family:'Cormorant Garamond',serif;">+55 11 3000-0000</a>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;margin-bottom:6px;">Estúdio</div>
+            <div style="color:#1F1B16;font-size:17px;font-family:'Cormorant Garamond',serif;">Rua Aspicuelta, 542 — Vila Madalena, São Paulo</div>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submit }}" style="display:flex;flex-direction:column;gap:30px;">
+            <label style="display:flex;flex-direction:column;gap:9px;">
+              <span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;">Nome</span>
+              <input type="text" required placeholder="Seu nome" style="font-family:inherit;font-size:16px;color:#1F1B16;background:transparent;border:none;border-bottom:1px solid rgba(31,27,22,0.22);padding:9px 0;outline:none;transition:border-color .3s ease;" style-focus="border-bottom-color:#A85D3E;" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:9px;">
+              <span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;">E-mail</span>
+              <input type="email" required placeholder="voce@email.com" style="font-family:inherit;font-size:16px;color:#1F1B16;background:transparent;border:none;border-bottom:1px solid rgba(31,27,22,0.22);padding:9px 0;outline:none;transition:border-color .3s ease;" style-focus="border-bottom-color:#A85D3E;" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:9px;">
+              <span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;">Sobre o projeto</span>
+              <textarea rows="4" required placeholder="Conte sobre o espaço, a localização e o que você imagina..." style="font-family:inherit;font-size:16px;color:#1F1B16;background:transparent;border:none;border-bottom:1px solid rgba(31,27,22,0.22);padding:9px 0;outline:none;resize:vertical;transition:border-color .3s ease;" style-focus="border-bottom-color:#A85D3E;"></textarea>
+            </label>
+            <button type="submit" style="align-self:flex-start;margin-top:6px;background:#1F1B16;color:#F3EFE8;border:none;padding:16px 38px;border-radius:999px;font-family:inherit;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .35s ease;" style-hover="background:#A85D3E;">Enviar mensagem</button>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid rgba(31,27,22,0.14);padding:clamp(38px,5vw,56px);text-align:center;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,44px);font-weight:300;margin-bottom:16px;">Obrigado.</div>
+            <p style="font-size:15px;line-height:1.7;color:#574E45;font-weight:300;margin:0;">Recebemos a sua mensagem. Entraremos em contato em breve para conversar sobre o seu projeto.</p>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#EBE5DB;padding:clamp(56px,8vh,90px) clamp(20px,5vw,64px) 40px;">
+    <div style="max-width:1320px;margin:0 auto;">
+      <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(50px,11vw,150px);line-height:0.92;letter-spacing:-.01em;border-bottom:1px solid rgba(31,27,22,0.14);padding-bottom:clamp(24px,4vh,40px);">Marcos Apolo</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;margin-top:30px;font-size:12px;color:#6B6258;letter-spacing:.03em;">
+        <div style="display:flex;gap:24px;flex-wrap:wrap;">
+          <a href="#projetos" style="text-decoration:none;color:inherit;">Projetos</a>
+          <a href="#sobre" style="text-decoration:none;color:inherit;">Estúdio</a>
+          <a href="#contato" style="text-decoration:none;color:inherit;">Contato</a>
+          <a href="#topo" style="text-decoration:none;color:inherit;">Instagram</a>
+        </div>
+        <div>© 2024 Marcos Apolo Arquitetura · São Paulo</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLb }}" style="position:fixed;inset:0;z-index:100;background:rgba(18,15,12,0.78);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:clamp(16px,4vw,56px);">
+      <div onClick="{{ stop }}" style="background:#F3EFE8;max-width:1040px;width:100%;max-height:90vh;overflow:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+        <sc-if value="{{ hasModel3d }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;min-height:340px;aspect-ratio:4/5;overflow:hidden;background:#DED6C8;display:flex;flex-direction:column;">
+            <div style="position:relative;flex:1;min-height:0;">
+              <iframe title="{{ activeProject.title }}" src="{{ activeProject.model3d }}" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+              <div style="position:absolute;top:18px;left:18px;pointer-events:none;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;letter-spacing:.12em;color:rgba(31,27,22,0.55);text-transform:uppercase;background:rgba(243,239,232,0.75);padding:4px 9px;border-radius:4px;">modelo 3d · {{ activeProject.title }}</div>
+            </div>
+            <p style="font-size:11px;margin:6px 10px;color:#9A9084;">
+              <a href="{{ activeProject.modelUrl }}" target="_blank" rel="nofollow" style="color:#A85D3E;">{{ activeProject.title }}</a> por
+              <a href="{{ activeProject.modelAuthorUrl }}" target="_blank" rel="nofollow" style="color:#A85D3E;">{{ activeProject.modelAuthor }}</a> em
+              <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="color:#A85D3E;">Sketchfab</a>
+            </p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ !hasModel3d }}" hint-placeholder-val="{{ true }}">
+          <div style="position:relative;min-height:340px;aspect-ratio:4/5;overflow:hidden;background:#DED6C8;">
+            <video data-lb-video src="{{ activeProject.video }}" style="{{ lbVideoStyle }}" muted playsinline preload="metadata"></video>
+            <div style="position:absolute;top:18px;left:18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;letter-spacing:.12em;color:rgba(31,27,22,0.45);text-transform:uppercase;">foto · {{ activeProject.title }} · galeria</div>
+            <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);pointer-events:none;display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;color:#F3EFE8;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:rgba(18,15,12,0.4);backdrop-filter:blur(4px);">⇄ Arraste para girar</div>
+          </div>
+        </sc-if>
+        <div style="padding:clamp(30px,4vw,54px);position:relative;display:flex;flex-direction:column;justify-content:center;">
+          <button onClick="{{ closeLb }}" aria-label="fechar" style="position:absolute;top:20px;right:22px;background:transparent;border:none;font-size:26px;line-height:1;cursor:pointer;color:#1F1B16;font-family:'Cormorant Garamond',serif;">×</button>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#A85D3E;margin-bottom:18px;">{{ activeProject.cat }}</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(34px,4.4vw,52px);line-height:1;margin:0 0 24px;">{{ activeProject.title }}</h3>
+          <p style="font-size:15.5px;line-height:1.78;color:#574E45;font-weight:300;margin:0 0 34px;">{{ activeProject.desc }}</p>
+          <div style="display:flex;gap:40px;flex-wrap:wrap;border-top:1px solid rgba(31,27,22,0.13);padding-top:26px;">
+            <div>
+              <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;margin-bottom:7px;">Local</div>
+              <div style="font-size:15px;font-family:'Cormorant Garamond',serif;">{{ activeProject.loc }}</div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;margin-bottom:7px;">Área</div>
+              <div style="font-size:15px;font-family:'Cormorant Garamond',serif;">{{ activeProject.area }}</div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9A9084;margin-bottom:7px;">Ano</div>
+              <div style="font-size:15px;font-family:'Cormorant Garamond',serif;">{{ activeProject.year }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = { activeCat: 'Todos', hover: null, activeProject: null, activeTest: 0, sent: false, entered: false };
+
+  PROJECTS = [
+    { id:1, title:'Casa Aurora', cat:'Residencial', loc:'Jardins, SP', year:'2024', area:'420 m²', tone:'#E5DED2', video:'./videos/1-360.mp4', desc:'Residência de pé-direito duplo organizada em torno de um pátio central. A pedra natural e a madeira maciça conduzem a luz do amanhecer por toda a casa, criando uma transição contínua entre interior e jardim.' },
+    { id:2, title:'Apartamento Higienópolis', cat:'Interiores', loc:'São Paulo, SP', year:'2023', area:'180 m²', tone:'#DBD3C5', video:'./videos/2-360.mp4', model3d:'https://sketchfab.com/models/7609ef43ffc04cc280f1525ffdc6d89a/embed?autostart=1', modelUrl:'https://sketchfab.com/3d-models/bathroom-interior-7609ef43ffc04cc280f1525ffdc6d89a', modelAuthor:'Akshaykhedkar97', modelAuthorUrl:'https://sketchfab.com/Akshaykhedkar97', cover:'https://media.sketchfab.com/models/7609ef43ffc04cc280f1525ffdc6d89a/thumbnails/c9a61e3795df4295ab78556bbe237b18/713764af2112419e8079564fb9a387d8.jpeg', desc:'Reforma integral de um apartamento dos anos 1950. Mantivemos os caixilhos originais e introduzimos uma marcenaria sob medida em freijó, devolvendo serenidade e fluidez aos ambientes sociais.' },
+    { id:3, title:'Residência Maresias', cat:'Residencial', loc:'Litoral Norte, SP', year:'2024', area:'560 m²', tone:'#E8E1D5', video:'./videos/3-360.mp4', desc:'Casa de praia em concreto aparente e madeira de demolição, voltada para o mar. Grandes panos de vidro e beirais profundos protegem do sol e emolduram a paisagem do oceano.' },
+    { id:4, title:'Loft Vila Madalena', cat:'Interiores', loc:'São Paulo, SP', year:'2023', area:'95 m²', tone:'#D8D0C2', video:'./videos/4-360.mp4', desc:'Um loft compacto resolvido com um único volume central de marcenaria que organiza cozinha, estar e dormitório. Tons terrosos e iluminação indireta ampliam a sensação de amplitude.' },
+    { id:5, title:'Pavilhão Yara', cat:'Comercial', loc:'Pinheiros, SP', year:'2022', area:'1.200 m²', tone:'#E3DBCD', video:'./videos/5-360.mp4', desc:'Showroom e escritórios em estrutura metálica leve, com jardim interno e cobertura translúcida. O programa flexível permite reconfigurar o espaço para exposições e eventos.' },
+    { id:6, title:'Casa Pátio', cat:'Residencial', loc:'Campos do Jordão, SP', year:'2022', area:'340 m²', tone:'#DDD5C7', video:'./videos/6-360.mp4', desc:'Refúgio de montanha em pedra local e madeira, com lareira central e grandes aberturas para a mata. A casa se enterra parcialmente no terreno para conforto térmico ao longo do ano.' },
+  ];
+
+  TESTS = [
+    { quote:'O Marcos entendeu nossa família melhor do que nós mesmos. A casa parece que sempre esteve ali — cada detalhe tem uma razão de ser.', name:'Helena & Rodrigo Vasconcelos', role:'Casa Aurora · Jardins' },
+    { quote:'Profissionalismo absoluto, do primeiro esboço à entrega das chaves. Um processo sereno, sem surpresas, com um resultado muito acima do que imaginávamos.', name:'Patrícia Lemann', role:'Apartamento Higienópolis' },
+    { quote:'Confiamos plenamente e fomos surpreendidos a cada visita. É raro encontrar alguém que cuide do espaço com tanta sensibilidade e rigor.', name:'Eduardo Tannous', role:'Residência Maresias' },
+  ];
+
+  CATS = ['Todos','Residencial','Interiores','Comercial'];
+
+  setupShader(canvas, c1, c2, c3, interactive) {
+    let gl = null;
+    try { gl = canvas.getContext('webgl', { antialias: false, alpha: false }) || canvas.getContext('experimental-webgl'); } catch (e) {}
+    if (!gl) { canvas.style.background = 'radial-gradient(130% 130% at 68% 18%, #3a281d 0%, #16110d 70%)'; return () => {}; }
+    const vsrc = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.0,1.0);}';
+    const fsrc = [
+      'precision highp float;',
+      'uniform vec2 u_res; uniform float u_time;',
+      'uniform vec3 u_c1; uniform vec3 u_c2; uniform vec3 u_c3;',
+      'uniform vec2 u_mouse; uniform float u_mouseStrength;',
+      'float hash(vec2 p){p=fract(p*vec2(123.34,345.45));p+=dot(p,p+34.345);return fract(p.x*p.y);}',
+      'float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);',
+      'float a=hash(i);float b=hash(i+vec2(1.0,0.0));float c=hash(i+vec2(0.0,1.0));float d=hash(i+vec2(1.0,1.0));',
+      'return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}',
+      'float fbm(vec2 p){float v=0.0;float a=0.5;mat2 m=mat2(1.6,1.2,-1.2,1.6);',
+      'for(int i=0;i<6;i++){v+=a*noise(p);p=m*p;a*=0.5;}return v;}',
+      'void main(){vec2 uv=gl_FragCoord.xy/u_res.xy;vec2 p=uv;p.x*=u_res.x/u_res.y;',
+      'float t=u_time*0.045;',
+      'vec2 mp=u_mouse;mp.x*=u_res.x/u_res.y;',
+      'vec2 md=p-mp;float mdist=length(md);',
+      'p-=normalize(md+1e-4)*u_mouseStrength*exp(-mdist*2.6);',
+      'vec2 q=vec2(fbm(p*1.6+vec2(0.0,t)),fbm(p*1.6+vec2(5.2,1.3-t)));',
+      'vec2 r=vec2(fbm(p*1.6+4.0*q+vec2(1.7,9.2)+0.15*t),fbm(p*1.6+4.0*q+vec2(8.3,2.8)-0.12*t));',
+      'float f=fbm(p*1.6+4.0*r);',
+      'vec3 col=mix(u_c1,u_c2,clamp(f*f*1.9,0.0,1.0));',
+      'col=mix(col,u_c3,clamp(length(r)*0.62,0.0,1.0)*0.55);',
+      'col+=u_c3*0.10*smoothstep(0.45,1.0,f);',
+      'float vig=smoothstep(1.25,0.2,length(uv-0.5));col*=mix(0.74,1.06,vig);',
+      'col+=(hash(gl_FragCoord.xy+u_time)-0.5)*0.022;',
+      'gl_FragColor=vec4(col,1.0);}'
+    ].join('\n');
+    const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vsrc));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fsrc));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.style.background = 'radial-gradient(130% 130% at 68% 18%, #3a281d 0%, #16110d 70%)'; return () => {}; }
+    gl.useProgram(prog);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const uRes = gl.getUniformLocation(prog, 'u_res'), uTime = gl.getUniformLocation(prog, 'u_time');
+    const uMouse = gl.getUniformLocation(prog, 'u_mouse'), uMouseStrength = gl.getUniformLocation(prog, 'u_mouseStrength');
+    gl.uniform3fv(gl.getUniformLocation(prog, 'u_c1'), c1);
+    gl.uniform3fv(gl.getUniformLocation(prog, 'u_c2'), c2);
+    gl.uniform3fv(gl.getUniformLocation(prog, 'u_c3'), c3);
+    const MOUSE_STRENGTH = 0.55;
+    gl.uniform2f(uMouse, 0.5, 0.5);
+    gl.uniform1f(uMouseStrength, 0.0);
+    let mx = 0.5, my = 0.5, tx = 0.5, ty = 0.5, ms = 0, ts = 0, onMove, onLeave, moveTarget;
+    if (interactive) {
+      moveTarget = canvas.parentElement || canvas;
+      onMove = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        tx = (e.clientX - rect.left) / rect.width;
+        ty = 1 - (e.clientY - rect.top) / rect.height;
+        ts = MOUSE_STRENGTH;
+      };
+      onLeave = () => { ts = 0; };
+      moveTarget.addEventListener('pointermove', onMove);
+      moveTarget.addEventListener('pointerleave', onLeave);
+    }
+    let raf, running = true, visible = true;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const w = Math.max(1, Math.round(canvas.clientWidth * dpr)), h = Math.max(1, Math.round(canvas.clientHeight * dpr));
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); gl.uniform2f(uRes, w, h); }
+    };
+    const ro = new ResizeObserver(resize); ro.observe(canvas); resize();
+    const vo = new IntersectionObserver((e) => { visible = e[0].isIntersecting; }, { threshold: 0 }); vo.observe(canvas);
+    const t0 = performance.now();
+    const loop = (now) => {
+      if (!running) return;
+      if (visible && !document.hidden) {
+        if (interactive) {
+          mx += (tx - mx) * 0.07; my += (ty - my) * 0.07;
+          ms += (ts - ms) * 0.035;
+          gl.uniform2f(uMouse, mx, my); gl.uniform1f(uMouseStrength, ms);
+        }
+        gl.uniform1f(uTime, (now - t0) / 1000); gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => {
+      running = false; cancelAnimationFrame(raf); ro.disconnect(); vo.disconnect();
+      if (interactive) { moveTarget.removeEventListener('pointermove', onMove); moveTarget.removeEventListener('pointerleave', onLeave); }
+      const ext = gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext();
+    };
+  }
+
+  componentDidMount() {
+    this._enterT = setTimeout(() => this.setState({ entered: true }), 60);
+
+    this._shaders = [];
+    const hc = document.querySelector('[data-hero-shader]');
+    if (hc) this._shaders.push(this.setupShader(hc, [0.085, 0.066, 0.052], [0.215, 0.16, 0.122], [0.56, 0.31, 0.205]));
+    const tc = document.querySelector('[data-test-shader]');
+    if (tc) this._shaders.push(this.setupShader(tc, [0.072, 0.058, 0.046], [0.17, 0.13, 0.10], [0.44, 0.26, 0.18], true));
+
+    this._cObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target, target = parseInt(el.dataset.count, 10), pad = parseInt(el.dataset.pad || '0', 10), dur = 1500, start = performance.now();
+        const step = (now) => {
+          const pr = Math.min((now - start) / dur, 1), ease = 1 - Math.pow(1 - pr, 3);
+          let str = String(Math.round(target * ease)); if (pad) str = str.padStart(pad, '0');
+          el.textContent = str; if (pr < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step); this._cObs.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-count]').forEach(el => this._cObs.observe(el));
+
+    this._onScroll = () => {
+      const h = document.querySelector('[data-header]');
+      if (!h) return;
+      const s = window.scrollY > 48;
+      h.style.background = s ? 'rgba(243,239,232,0.92)' : 'transparent';
+      h.style.color = s ? '#1F1B16' : '#F3EFE8';
+      h.style.borderBottomColor = s ? 'rgba(31,27,22,0.1)' : 'rgba(243,239,232,0)';
+      h.style.backdropFilter = s ? 'blur(12px)' : 'none';
+      h.style.webkitBackdropFilter = s ? 'blur(12px)' : 'none';
+      h.style.paddingTop = s ? '14px' : '22px';
+      h.style.paddingBottom = s ? '14px' : '22px';
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'none';
+          this._io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    this._raf = requestAnimationFrame(() => {
+      document.querySelectorAll('[data-reveal]').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(26px)';
+        el.style.transition = 'opacity 1s cubic-bezier(.16,.84,.44,1), transform 1s cubic-bezier(.16,.84,.44,1)';
+        this._io.observe(el);
+      });
+    });
+
+    this._timer = setInterval(() => {
+      if (!this.state.activeProject) this.setState(s => ({ activeTest: (s.activeTest + 1) % this.TESTS.length }));
+    }, 6500);
+
+    // ── Hero: partículas + reveal shader ─────────────────────────────────────
+    {
+      const heroEl = document.getElementById('topo');
+      if (heroEl) {
+        const lensEl = heroEl.querySelector('[data-lens]');
+        if (lensEl) lensEl.style.display = 'none';
+        const antesEl = heroEl.querySelector('[data-antes]');
+        if (antesEl) antesEl.style.display = 'none';
+
+        // Pré-carrega as duas imagens para troca instantânea
+        const img1 = new Image(); img1.src = './firstImage.png';
+        const img2 = new Image(); img2.src = './backImage.png';
+
+        // Estado de inversão
+        let inverted = false;
+        const topoDepoisEl = document.getElementById('topo-depois');
+        function applyBackground() {
+          if (topoDepoisEl) topoDepoisEl.style.backgroundImage = inverted ? "url('./backImage.png')" : "url('./firstImage.png')";
+        }
+        applyBackground();
+
+        const flipBtn = heroEl.querySelector('[data-flip]');
+        if (flipBtn) flipBtn.addEventListener('click', () => {
+          inverted = !inverted;
+          applyBackground();
+          flipBtn.style.color   = inverted ? 'rgba(201,138,110,0.85)' : 'rgba(243,239,232,0.48)';
+          flipBtn.style.borderColor = inverted ? 'rgba(201,138,110,0.4)' : 'rgba(243,239,232,0.18)';
+        });
+
+        // Canvas principal
+        const canvas = document.createElement('canvas');
+        canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;';
+        const overlayEl = heroEl.querySelector('[data-overlay]');
+        if (overlayEl) heroEl.insertBefore(canvas, overlayEl);
+        else heroEl.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+
+        // Canvas de máscara (baixa res)
+        const MW = 400, MH = 300;
+        const maskC = document.createElement('canvas');
+        maskC.width = MW; maskC.height = MH;
+        const mctx = maskC.getContext('2d');
+        mctx.fillStyle = 'white';
+
+        // Partículas — typed arrays para zero GC
+        const N = 1000;
+        const bx  = new Float32Array(N), by  = new Float32Array(N);
+        const ph1 = new Float32Array(N), ph2 = new Float32Array(N);
+        const spd = new Float32Array(N), szA = new Float32Array(N);
+        for (let i = 0; i < N; i++) {
+          bx[i]  = Math.random(); by[i]  = Math.random();
+          ph1[i] = Math.random() * Math.PI * 2;
+          ph2[i] = Math.random() * Math.PI * 2;
+          spd[i] = 0.3 + Math.random() * 0.5;
+          szA[i] = 0.8 + Math.random() * 1.2;
+        }
+        const pxA = new Float32Array(N), pyA = new Float32Array(N);
+
+        // Estado
+        let hxC = 0.5, hyC = 0.5, hxT = 0.5, hyT = 0.5;
+        let heroW = Math.max(heroEl.offsetWidth, 1);
+        let heroH = Math.max(heroEl.offsetHeight, 1);
+        let hRaf = null, hintGone = false, mouseActive = false;
+        const t0 = performance.now();
+
+        // Partículas sutis batched em 4 grupos de alpha
+        function drawParticles(cx, cy) {
+          const g = [[], [], [], []];
+          for (let i = 0; i < N; i++) {
+            const dx = pxA[i] - cx, dy = pyA[i] - cy;
+            const near = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / 380);
+            g[Math.min(3, near * 4 | 0)].push(i);
+          }
+          ctx.fillStyle = '#F3EFE8';
+          [[g[0], 0.042], [g[1], 0.072], [g[2], 0.10], [g[3], 0.13]].forEach(([gr, a]) => {
+            if (!gr.length) return;
+            ctx.globalAlpha = a;
+            ctx.beginPath();
+            gr.forEach(i => { ctx.moveTo(pxA[i] + szA[i], pyA[i]); ctx.arc(pxA[i], pyA[i], szA[i], 0, Math.PI * 2); });
+            ctx.fill();
+          });
+          ctx.globalAlpha = 1;
+        }
+
+        const loop = () => {
+          hRaf = requestAnimationFrame(loop);
+          const t = (performance.now() - t0) / 1000;
+
+          // Delay: lerp lento — revela fica atrás do cursor
+          const prevX = hxC, prevY = hyC;
+          if (mouseActive) {
+            hxC += (hxT - hxC) * 0.05;
+            hyC += (hyT - hyC) * 0.05;
+          }
+          // Velocidade para deformação direcional
+          const vxN = (hxC - prevX) * 60, vyN = (hyC - prevY) * 60;
+          const vspeed = Math.sqrt(vxN * vxN + vyN * vyN);
+          const vangle = Math.atan2(vyN, vxN);
+
+          const cw = Math.round(heroW), ch = Math.round(heroH);
+          if (canvas.width !== cw || canvas.height !== ch) {
+            canvas.width = cw; canvas.height = ch;
+          }
+          ctx.clearRect(0, 0, cw, ch);
+
+          // Drift orgânico das partículas
+          for (let i = 0; i < N; i++) {
+            pxA[i] = (bx[i] + Math.sin(t * spd[i] + ph1[i]) * 0.007) * cw;
+            pyA[i] = (by[i] + Math.cos(t * spd[i] * 0.7 + ph2[i]) * 0.007) * ch;
+          }
+
+          const cx = hxC * cw, cy = hyC * ch;
+          const scX = MW / cw, scY = MH / ch;
+          const activeImg = inverted ? img1 : img2;
+
+          // Máscara: partículas com reveal deformado na direção do movimento
+          mctx.clearRect(0, 0, MW, MH);
+          if (mouseActive && activeImg.complete && activeImg.naturalWidth > 0 && cw > 0) {
+            const BASE_R = 480;
+            const gcx = cx * scX, gcy = cy * scY, gr = BASE_R * scX;
+            const grad = mctx.createRadialGradient(gcx, gcy, 0, gcx, gcy, gr);
+            grad.addColorStop(0, 'rgba(255,255,255,0.66)');
+            grad.addColorStop(0.65, 'rgba(255,255,255,0.4)');
+            grad.addColorStop(1, 'rgba(255,255,255,0)');
+            mctx.fillStyle = grad;
+            mctx.beginPath();
+            mctx.arc(gcx, gcy, gr, 0, Math.PI * 2);
+            mctx.fill();
+            mctx.fillStyle = 'white';
+
+            mctx.save();
+            mctx.filter = 'blur(5px)';
+            for (let i = 0; i < N; i++) {
+              const dx = pxA[i] - cx, dy = pyA[i] - cy;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              // Estica o raio na direção do movimento (deformação)
+              const proj = Math.cos(Math.atan2(dy, dx) - vangle);
+              const effectiveR = BASE_R * (1 + Math.max(0, proj) * Math.min(vspeed * 0.6, 0.55));
+              // Borda ondulante (shader)
+              const ripple = Math.sin(dist * 0.05 - t * 4.5) * 16
+                           + Math.sin(dist * 0.09 + t * 2.6) * 8;
+              const eff = dist + ripple;
+              if (eff >= effectiveR) continue;
+              const inf = Math.pow(1 - eff / effectiveR, 0.8);
+              mctx.globalAlpha = Math.min(1, inf * 6);
+              mctx.beginPath();
+              mctx.arc(pxA[i] * scX, pyA[i] * scY, (szA[i] * 3 + inf * 14) * scX, 0, Math.PI * 2);
+              mctx.fill();
+            }
+            mctx.restore();
+
+            ctx.drawImage(activeImg, 0, 0, cw, ch);
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.drawImage(maskC, 0, 0, cw, ch);
+            ctx.globalCompositeOperation = 'source-over';
+          }
+
+          drawParticles(cx, cy);
+
+          // Paralaxe
+          const px = hxC - 0.5, py = hyC - 0.5;
+          heroEl.querySelectorAll('[data-p]').forEach(el => {
+            const d = parseFloat(el.dataset.p) || 0;
+            el.style.transform = `translate(${-px * d}px,${-py * d}px)`;
+          });
+        };
+        hRaf = requestAnimationFrame(loop);
+
+        this._heroMove = (e) => {
+          const r = heroEl.getBoundingClientRect();
+          heroW = Math.max(r.width, 1); heroH = Math.max(r.height, 1);
+          hxT = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+          hyT = Math.max(0, Math.min(1, (e.clientY - r.top)  / r.height));
+          mouseActive = true;
+          if (!hintGone) {
+            hintGone = true;
+            const hEl = heroEl.querySelector('[data-hint]');
+            if (hEl) hEl.style.opacity = '0';
+          }
+        };
+
+        this._heroLeave = () => { mouseActive = false; };
+
+        this._heroCancelRaf = () => {
+          if (hRaf) { cancelAnimationFrame(hRaf); hRaf = null; }
+        };
+
+        heroEl.addEventListener('mousemove', this._heroMove);
+        heroEl.addEventListener('mouseleave', this._heroLeave);
+      }
+    }
+
+    this._onKey = (e) => { if (e.key === 'Escape') this.setState({ activeProject: null }); };
+    window.addEventListener('keydown', this._onKey);
+
+    // ── Lightbox: arraste horizontal para girar o vídeo 360° manualmente ──────
+    let dragState = null;
+    this._lbDown = (e) => {
+      const v = e.target.closest && e.target.closest('[data-lb-video]');
+      if (!v || !v.duration) return;
+      dragState = { video: v, startX: e.clientX, startTime: v.currentTime, width: v.clientWidth || 1 };
+      v.style.cursor = 'grabbing';
+      if (v.setPointerCapture) { try { v.setPointerCapture(e.pointerId); } catch (err) {} }
+      e.preventDefault();
+    };
+    this._lbMove = (e) => {
+      if (!dragState) return;
+      const { video, startX, startTime, width } = dragState;
+      const duration = video.duration;
+      if (!duration) return;
+      const dx = e.clientX - startX;
+      const ROT_PER_WIDTH = 1.4;
+      let t = startTime - (dx / width) * duration * ROT_PER_WIDTH;
+      t = ((t % duration) + duration) % duration;
+      video.currentTime = t;
+    };
+    this._lbUp = () => {
+      if (!dragState) return;
+      dragState.video.style.cursor = 'grab';
+      dragState = null;
+    };
+    this._lbLoaded = (e) => {
+      const v = e.target;
+      if (v && v.matches && v.matches('[data-lb-video]') && this._lbStartTime != null) {
+        v.currentTime = this._lbStartTime;
+        this._lbStartTime = null;
+      }
+    };
+    document.addEventListener('pointerdown', this._lbDown);
+    document.addEventListener('pointermove', this._lbMove);
+    document.addEventListener('pointerup', this._lbUp);
+    document.addEventListener('pointercancel', this._lbUp);
+    document.addEventListener('loadedmetadata', this._lbLoaded, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('keydown', this._onKey);
+    document.removeEventListener('pointerdown', this._lbDown);
+    document.removeEventListener('pointermove', this._lbMove);
+    document.removeEventListener('pointerup', this._lbUp);
+    document.removeEventListener('pointercancel', this._lbUp);
+    document.removeEventListener('loadedmetadata', this._lbLoaded, true);
+    if (this._io) this._io.disconnect();
+    if (this._cObs) this._cObs.disconnect();
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._timer) clearInterval(this._timer);
+    if (this._enterT) clearTimeout(this._enterT);
+    if (this._shaders) this._shaders.forEach(fn => fn && fn());
+    if (this._heroMove) {
+      const heroEl = document.getElementById('topo');
+      if (heroEl) {
+        heroEl.removeEventListener('mousemove', this._heroMove);
+        heroEl.removeEventListener('mouseleave', this._heroLeave);
+      }
+    }
+    if (this._heroCancelRaf) this._heroCancelRaf();
+  }
+
+  imgStyle(tone, hovered, cover) {
+    return {
+      position: 'absolute', inset: 0,
+      backgroundColor: tone,
+      backgroundImage: cover ? "url('" + cover + "')" : 'repeating-linear-gradient(135deg, rgba(31,27,22,0.045) 0 2px, transparent 2px 13px)',
+      backgroundSize: cover ? 'cover' : undefined,
+      backgroundPosition: cover ? 'center' : undefined,
+      transform: hovered ? 'scale(1.06)' : 'scale(1)',
+      transition: 'transform 1.1s cubic-bezier(.16,.84,.44,1)',
+    };
+  }
+
+  videoStyle(tone, hovered, hidden) {
+    return {
+      position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+      backgroundColor: tone,
+      display: hidden ? 'none' : 'block',
+      transform: hovered ? 'scale(1.06)' : 'scale(1)',
+      transition: 'transform 1.1s cubic-bezier(.16,.84,.44,1)',
+    };
+  }
+
+  lbVideoStyle(tone) {
+    return {
+      position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+      backgroundColor: tone, cursor: 'grab', touchAction: 'none', userSelect: 'none',
+    };
+  }
+
+  playProjectVideo(id) {
+    const v = document.querySelector('[data-proj-video="' + id + '"]');
+    if (v) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+  }
+
+  pauseProjectVideo(id) {
+    const v = document.querySelector('[data-proj-video="' + id + '"]');
+    if (v) v.pause();
+  }
+
+  renderVals() {
+    const { activeCat, hover, activeTest, activeProject, sent, entered } = this.state;
+
+    const ease = 'cubic-bezier(.16,.84,.44,1)';
+    const fade = (delay, base) => ({
+      ...base,
+      opacity: entered ? 1 : 0,
+      transform: entered ? 'none' : 'translateY(20px)',
+      transition: 'opacity .95s ' + ease + ' ' + delay + 's, transform 1.1s ' + ease + ' ' + delay + 's',
+    });
+    const mask = (delay, extra) => ({
+      display: 'block',
+      ...extra,
+      opacity: entered ? 1 : 0,
+      transform: entered ? 'none' : 'translateY(104%)',
+      transition: 'opacity 1.1s ' + ease + ' ' + delay + 's, transform 1.15s ' + ease + ' ' + delay + 's',
+    });
+    const heroEyebrow = fade(0.1, { display: 'flex', alignItems: 'center', gap: '12px', fontSize: '11px', fontWeight: 600, letterSpacing: '.32em', textTransform: 'uppercase', color: 'rgba(243,239,232,0.82)', marginBottom: '26px' });
+    const heroLine1 = mask(0.26, {});
+    const heroLine2 = mask(0.4, { fontStyle: 'italic', fontWeight: 400 });
+    const heroText = fade(0.6, { margin: 0, maxWidth: '440px', fontSize: 'clamp(15px,1.5vw,17px)', lineHeight: 1.6, fontWeight: 300, color: 'rgba(243,239,232,0.88)' });
+    const heroCta = fade(0.74, { textDecoration: 'none', color: '#F3EFE8', fontSize: '12px', fontWeight: 600, letterSpacing: '.22em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '12px', whiteSpace: 'nowrap' });
+
+    const cats = this.CATS.map(c => {
+      const active = c === activeCat;
+      return {
+        label: c,
+        go: () => this.setState({ activeCat: c }),
+        style: {
+          fontFamily: 'inherit', fontSize: '12px', fontWeight: 600, letterSpacing: '.04em',
+          padding: '9px 18px', borderRadius: '999px', cursor: 'pointer',
+          border: active ? '1px solid #1F1B16' : '1px solid rgba(31,27,22,0.18)',
+          background: active ? '#1F1B16' : 'transparent',
+          color: active ? '#F3EFE8' : '#574E45',
+          transition: 'all .3s ease',
+        },
+      };
+    });
+
+    const filtered = this.PROJECTS.filter(p => activeCat === 'Todos' || p.cat === activeCat);
+    const projects = filtered.map((p, i) => {
+      const hovered = hover === p.id;
+      return {
+        ...p,
+        num: String(i + 1).padStart(2, '0'),
+        imgStyle: this.imgStyle(p.tone, hovered, p.cover),
+        videoStyle: this.videoStyle(p.tone, hovered, !!p.cover),
+        overlayStyle: {
+          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(33,28,23,0.34)', opacity: hovered ? 1 : 0,
+          transition: 'opacity .5s ease', pointerEvents: 'none',
+        },
+        onEnter: () => { this.setState({ hover: p.id }); if (!p.cover) this.playProjectVideo(p.id); },
+        onLeave: () => { this.setState({ hover: null }); if (!p.cover) this.pauseProjectVideo(p.id); },
+        open: () => {
+          const cardVideo = document.querySelector('[data-proj-video="' + p.id + '"]');
+          this._lbStartTime = cardVideo ? cardVideo.currentTime : 0;
+          this.setState({ activeProject: p });
+        },
+      };
+    });
+
+    const tests = this.TESTS.map((t, i) => {
+      const active = i === activeTest;
+      return {
+        ...t,
+        go: () => this.setState({ activeTest: i }),
+        slideStyle: {
+          position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          opacity: active ? 1 : 0, transform: active ? 'translateY(0)' : 'translateY(12px)',
+          transition: 'opacity .8s ease, transform .8s ease', pointerEvents: active ? 'auto' : 'none',
+        },
+        dotStyle: {
+          width: active ? '26px' : '9px', height: '9px', borderRadius: '999px', border: 'none', cursor: 'pointer',
+          background: active ? '#C98A6E' : 'rgba(243,239,232,0.32)', transition: 'all .4s ease', padding: 0,
+        },
+      };
+    });
+
+    return {
+      heroEyebrow, heroLine1, heroLine2, heroText, heroCta,
+      cats, projects, tests,
+      activeProject,
+      lbOpen: !!activeProject,
+      hasModel3d: !!(activeProject && activeProject.model3d),
+      lbVideoStyle: activeProject ? this.lbVideoStyle(activeProject.tone) : {},
+      closeLb: () => this.setState({ activeProject: null }),
+      stop: (e) => e.stopPropagation(),
+      sent, notSent: !sent,
+      submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>
